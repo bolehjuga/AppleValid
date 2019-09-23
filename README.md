@@ -22,4 +22,4 @@ run :
 
 ## Video
 
-https://youtu.be/Pwp39WgGrOs
+https://www.twitch.tv/pwn0sec
