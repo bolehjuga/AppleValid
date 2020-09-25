@@ -50,7 +50,7 @@ class Apple():
 					data={
 						'accountPassword':'xxxxxxx',
 						'appleId':eml,
-						'appIdKey':'f52543bf72b66552b41677a95aa808462c95ebaaaf19323ddb3be843e5100cb8'
+						'appIdKey':'4b98a8e6a3a3ce265b93c90207c442b53c45a1afa9ff1dc9bde8bb6928078d3b'
 						},
 					headers={'User-Agent': self.ua}
 				)
